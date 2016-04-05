@@ -4,7 +4,6 @@ var path = require('path');
 var inflected = require('inflected');
 
 /* jshint node: true */
-'use strict';
 
 // voorbeeld van de brocolli-filter readme. bah en bah
 FeatureParser.prototype = Object.create(Filter.prototype);
@@ -130,6 +129,7 @@ FeatureParser.prototype.getTestFeature = function(unitModule,fileName) {
   return testFeature.join('\n');
 };
 
+
 module.exports = {
   name: 'ember-cli-yadda',
   getTestFramework: function() {
@@ -145,7 +145,7 @@ module.exports = {
     registry.add('js', {
       name: 'ember-cli-yadda',
       ext: ['feature', 'spec', 'specification'],
-      toTree: function(tree, inputPath, outputPath) {
+      toTree: function(tree/*, inputPath, outputPath*/) {
         return new FeatureParser(tree, testFramework);
       }
     });
@@ -155,7 +155,7 @@ module.exports = {
   },
   included: function(app) {
     this._super.included(app);
-    app.import(app.bowerDirectory + '/yadda/dist/yadda-0.17.5.js', { type: 'test' });
+    app.import(app.bowerDirectory + '/yadda/dist/yadda-0.15.4.js', { type: 'test' });
   },
   isDevelopingAddon: function() {
    return true;

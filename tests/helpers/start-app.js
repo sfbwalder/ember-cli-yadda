@@ -9,6 +9,8 @@ export default function startApp(attrs) {
   attributes = Ember.merge(attributes, attrs); // use defaults, but you can override;
 
   Ember.run(function() {
+
+
     application = Application.create(attributes);
     application.setupForTesting();
     application.injectTestHelpers();
