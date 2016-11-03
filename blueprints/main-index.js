@@ -16,7 +16,7 @@ module.exports = {
 
   afterInstall: function() {
     return this.addBowerPackagesToProject([
-      { name: 'yadda',           source: '',                     target: '#>=0' },
+      { name: 'yadda',           source: '',                     target: '>=0' },
     ]);
   }
 };
