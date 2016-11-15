@@ -159,25 +159,48 @@ module.exports = {
     var options = app.options['ember-cli-yadda'] || {};
     var yaddaVersion = options.yaddaVersion || '0.17.6';
 
-    app.import(app.bowerDirectory + '/yadda/dist/yadda-' + yaddaVersion + '.js', { type: 'test' });
+    app.import('vendor/yadda.js', { type: 'test' });
   },
   isDevelopingAddon: function() {
    return true;
   },
-  treeFor: function(type) {
-    var app = this.app;
-    var tree = this._super.treeFor(type);
-    if (type === 'test-support') {
-      var yadda = concat(tree, {
-        outputFile: '/yadda.js',
-        header: ";(function() {\nvar require;",
-        inputFiles: ['yadda.js'],
-        footer: "\ndefine('yadda', [], function() { return require('yadda'); });\n}());",
-        sourceMapConfig: { enabled: true },
-        allowNone: false
-      });
-      tree = mergeTrees([yadda, tree]);
-    }
+  treeForVendor: function(tree) {
+    var stew = require('broccoli-stew');
+    var concat = require('broccoli-concat');
+    var path = require('path');
+    var yaddaPath = path.dirname(require.resolve('yadda'));
+    var yaddaDistPath = path.join(yaddaPath, '..', 'dist', 'yadda-0.22.1.js');
+    var tree = stew.mv(yaddaDistPath, 'yadda.js');
+    tree = concat(tree, {
+      outputFile: '/yadda.js',
+      header: ";(function() {\nvar require;",
+      inputFiles: ['yadda.js'],
+      footer: "\ndefine('yadda', [], function() { return require('yadda'); });\n}());",
+      sourceMapConfig: { enabled: true },
+      allowNone: false
+    });
+    tree = stew.log(tree);
     return tree;
   }
+  // treeFor: function(type) {
+    // var app = this.app;
+    // var tree = this._super.treeFor.apply(this, arguments);
+    // var stew = require('broccoli-stew');
+    // console.log(type);
+    // tree = stew.log(tree);
+    // if (type === 'test-support') {
+      
+
+      // var yadda = concat(tree, {
+      //   outputFile: '/yadda.js',
+      //   header: ";(function() {\nvar require;",
+      //   inputFiles: ['yadda.js'],
+      //   footer: "\ndefine('yadda', [], function() { return require('yadda'); });\n}());",
+      //   sourceMapConfig: { enabled: true },
+      //   allowNone: false
+      // });
+      // tree = mergeTrees([yadda, tree]);
+  //   }
+  //   return tree;
+  // }
 };

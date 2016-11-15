@@ -5,7 +5,7 @@
 			"name": "Launch",
 			"type": "node",
 			"request": "launch",
-			"program": "c:/Users/ctyt/AppData/Roaming/npm/ember",
+			"program": "${workspaceRoot}/node_modules/ember-cli/bin/ember",
 			"stopOnEntry": false,
 			"args": ["build"],
 			"cwd": "${workspaceRoot}",
