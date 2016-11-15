@@ -163,5 +163,21 @@ module.exports = {
   },
   isDevelopingAddon: function() {
    return true;
+  },
+  treeFor: function(type) {
+    var app = this.app;
+    var tree = this._super.treeFor(type);
+    if (type === 'test-support') {
+      var yadda = concat(tree, {
+        outputFile: '/yadda.js',
+        header: ";(function() {\nvar require;",
+        inputFiles: ['yadda.js'],
+        footer: "\ndefine('yadda', [], function() { return require('yadda'); });\n}());",
+        sourceMapConfig: { enabled: true },
+        allowNone: false
+      });
+      tree = mergeTrees([yadda, tree]);
+    }
+    return tree;
   }
 };
